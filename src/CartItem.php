@@ -65,6 +65,13 @@ class CartItem implements Arrayable, Jsonable
     private $taxRate = 0;
 
     /**
+     * Metadata associated with item
+     *
+     * @var array
+     */
+    public $metadata;
+
+    /**
      * CartItem constructor.
      *
      * @param int|string $id
@@ -89,6 +96,7 @@ class CartItem implements Arrayable, Jsonable
         $this->price    = floatval($price);
         $this->options  = new CartItemOptions($options);
         $this->rowId = $this->generateRowId($id, $options);
+        $this->metadata = new CartItemMetaData;
     }
 
     /**
