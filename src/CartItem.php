@@ -79,7 +79,7 @@ class CartItem implements Arrayable, Jsonable
      * @param float      $price
      * @param array      $options
      */
-    public function __construct($id, $name, $price, array $options = [])
+    public function __construct($id, $name, $price, array $options = [], array $metadata = [])
     {
         if(empty($id)) {
             throw new \InvalidArgumentException('Please supply a valid identifier.');
@@ -96,7 +96,7 @@ class CartItem implements Arrayable, Jsonable
         $this->price    = floatval($price);
         $this->options  = new CartItemOptions($options);
         $this->rowId = $this->generateRowId($id, $options);
-        $this->metadata = new CartItemMetaData;
+        $this->metadata = new CartItemMetaData($metadata);
     }
 
     /**
@@ -323,9 +323,9 @@ class CartItem implements Arrayable, Jsonable
      * @param array      $options
      * @return \Gloudemans\Shoppingcart\CartItem
      */
-    public static function fromAttributes($id, $name, $price, array $options = [])
+    public static function fromAttributes($id, $name, $price, array $options = [], array $metadata)
     {
-        return new self($id, $name, $price, $options);
+        return new self($id, $name, $price, $options, $metadata);
     }
 
     /**
@@ -356,6 +356,7 @@ class CartItem implements Arrayable, Jsonable
             'qty'      => $this->qty,
             'price'    => $this->price,
             'options'  => $this->options->toArray(),
+            'metadata' => $this->metadata->toArray(),
             'tax'      => $this->tax,
             'subtotal' => $this->subtotal
         ];
